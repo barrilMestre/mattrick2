@@ -114,7 +114,7 @@
         <div class="flexslider">
           <ul class="slides">
             <li>
-              <img src="extra-images/slide1.jpg" alt="" />
+              <img src="extra-images/slide1_2.jpg" alt="" />
               <div class="container">
                 <div class="kode-caption">       
                 	<h2>Mattrick-X</h2>
