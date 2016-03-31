@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,13 +48,25 @@
 					</ul> -->
 				</div>
                 <div class="col-md-6">
-                  <ul class="kode-userinfo">
-                   <!--  <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a>
-                    </li> -->
-                    <li><a href="#"><i class="fa fa-user"></i> Minha Conta</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Entrar</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#myModalTwo"><i class="fa fa-user-plus"></i> Cadastre-se</a></li>
-                  </ul>
+                  	<ul class="kode-userinfo">
+                  		<sec:authorize access="hasRole('ROLE_USER')">
+		                	<c:url value="/j_spring_security_logout" var="logoutUrl" />
+							<form action="${logoutUrl}" method="post" id="logoutForm">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							</form>
+							
+		                  	<c:if test="${pageContext.request.userPrincipal.name != null}">
+								<span>Usuário: ${pageContext.request.userPrincipal.name}&nbsp;&nbsp;</span> 
+							</c:if>
+						</sec:authorize>
+	                   	<!--  <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li> -->
+	                    <li><a href="#"><i class="fa fa-user"></i> Minha Conta</a></li>
+	                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Entrar</a></li>
+	                    <li><a href="#" data-toggle="modal" data-target="#myModalTwo"><i class="fa fa-user-plus"></i> Cadastre-se</a></li>
+	                    <c:if test="${pageContext.request.userPrincipal.name != null}">
+							<li> <a href="javascript:formSubmit()"><i class="fa fa-sign-out"></i> Sair</a></li>
+						</c:if>
+                  	</ul>
                 </div>
               </div>
             </div>
@@ -63,12 +78,25 @@
 				<!--NAVIGATION START-->
 				<div class="kode-navigation pull-left">
 					<ul>
+						 <li><a href="index.jsp">Início</a>
+						  <ul class="children">
+                              <li><a href="index.jsp">Voltar pro início</a></li>
+                            </ul>
+						 </li>
+						 <sec:authorize access="hasRole('ROLE_ADMIN')">
+							 <li><a href="index.jsp">Essa opção só aparece pro admin</a>
+							  <ul class="children">
+	                              <li><a href="index.jsp">Voltar pro início</a></li>
+	                            </ul>
+							 </li>
+						</sec:authorize>	
+					</ul>
 					
 				</div>
 				<!--NAVIGATION END--> 
 				<!--LOGO START-->	
 				<div class="logo">
-					<a href="index.html" class="logo"><img src="images/logo.png" alt=""></a>
+					<a href="index.jsp" class="logo"><img src="images/logo.png" alt=""></a>
 				</div>
 				<!--LOGO END-->	
 				<!--NAVIGATION START-->
@@ -133,14 +161,35 @@
         <div class="modal-content">
           <div class="modal-header thbg-color">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Login To Your Account</h4>
+            <h4 class="modal-title">Acesse Sua Conta</h4>
           </div>
           <div class="modal-body">
-            <form class="kode-loginform">
-              <p><span>User Name</span> <input type="text" placeholder="User Name"></p>
-              <p><span>Password</span> <input type="password" placeholder="Password"></p>
-              <p><label><input type="checkbox"><span>Remember Me</span></label></p>
-              <p class="kode-submit"><a href="#">Lost Your Password</a> <input class="thbg-colortwo" type="submit" value="Sign in"></p>
+          
+          	<c:if test="${not empty error}">
+				<div class="error">${error}</div>
+			</c:if>
+			<c:if test="${not empty msg}">
+				<div class="msg">${msg}</div>
+			</c:if>
+          
+            <form class="kode-loginform"
+		            name='loginForm'
+					action="<c:url value='/auth/login_check?targetUrl=${targetUrl}' />"
+					method='POST'>
+
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />			 
+			 
+              <p><span>Login</span> <input type="text" name='username' placeholder="Usuário"></p>
+              <p><span>Senha</span> <input type="password" name='password' placeholder="Senha"></p>
+              
+              <c:if test="${empty loginUpdate}">
+	              <p><label><input name="remember-me" type="checkbox"><span>Mantenha-me logado</span></label></p>
+	              <p class="kode-submit">
+	              	<a href="#">Esqueceu sua senha?</a> 
+	              	<input class="thbg-colortwo" name="submit" type="submit" value="Entrar">
+	              </p> 					
+			  </c:if>
+              
             </form>
           </div>
         </div>
@@ -181,6 +230,12 @@
 	<script src="js/jquery.prettyphoto.js"></script>
 	<script src="js/kode_pp.js"></script>
     <script src="js/functions.js"></script>
-
+	
+	<script>
+		function formSubmit() {
+			document.getElementById("logoutForm").submit();
+		}
+	</script>
+	
   </body>
 </html>
