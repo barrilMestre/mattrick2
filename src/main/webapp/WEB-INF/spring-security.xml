@@ -12,13 +12,14 @@
 			<cache-control />
 		</headers>
 
-		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+		<!-- <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/welcome**" access="hasRole('ROLE_ADMIN')" /> -->
 		<!-- redirect to 403 access denied <intercept-url pattern="/update**" access="hasRole('ROLE_ADMIN') 
 			and isFullyAuthenticated()" /> -->
 
-		<form-login login-page="/login" 
-		    default-target-url="/welcome"
-			authentication-failure-url="/login?error" 
+		<form-login login-page="/" 
+		    default-target-url="/"
+			authentication-failure-url="/?error" 
 			username-parameter="username"
 			password-parameter="password" 
 			login-processing-url="/auth/login_check"
