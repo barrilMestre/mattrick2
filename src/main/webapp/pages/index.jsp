@@ -59,8 +59,8 @@
 								<span>Usuário: ${pageContext.request.userPrincipal.name}&nbsp;&nbsp;</span> 
 							</c:if>
 						</sec:authorize>
-	                   	<!--  <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li> -->
-	                    <li><a href="#"><i class="fa fa-user"></i> Minha Conta</a></li>
+	                   	<!--  <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+	                    <li><a href="#"><i class="fa fa-user"></i> Minha Conta</a></li> -->
 	                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Entrar</a></li>
 	                    <li><a href="#" data-toggle="modal" data-target="#myModalTwo"><i class="fa fa-user-plus"></i> Cadastre-se</a></li>
 	                    <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -211,15 +211,15 @@
         <div class="modal-content">
           <div class="modal-header thbg-color">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Register</h4>
+            <h4 class="modal-title">Cadastro</h4>
           </div>
           <div class="modal-body">
             <form class="kode-loginform">
-              <p><span>Email</span> <input type="text" placeholder="Email"></p>
-              <p><span>Password</span> <input type="password" placeholder="Password"></p>
-              <p><span>Retype Password</span> <input type="password" placeholder="Retype Password"></p>
-              <p><label><input type="checkbox"><span>Remember Me</span></label></p>
-              <p class="kode-submit"><a href="#">Lost Your Password</a> <input class="thbg-colortwo" type="submit" value="Sign Up"></p>
+              <p><span>E-mail</span> <input type="text" placeholder="E-mail"></p>
+              <p><span>Senha</span> <input type="password" placeholder="Senha"></p>
+              <p><span>Confirmar Senha</span> <input type="password" placeholder="Confirmar Senha"></p>
+              <p><label><input type="checkbox"><span>Mantenha-me logado</span></label></p>
+              <p class="kode-submit"><input class="thbg-colortwo" type="submit" value="Cadastrar"></p> 
             </form>
           </div>
         </div>
